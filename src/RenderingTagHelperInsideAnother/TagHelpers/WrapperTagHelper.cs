@@ -14,7 +14,7 @@ namespace RenderingTagHelperInsideAnother.TagHelpers
             output.TagName = "div";
             output.Attributes.SetAttribute(new TagHelperAttribute("class", "wrapper-tag-helper"));
 
-            string innerContent = renderInnerTagHelper();
+            string innerContent = renderInnerTagHelper(context);
 
             string finalContent = $@"<p>Wrapper</p>
 {innerContent}";
@@ -25,15 +25,10 @@ namespace RenderingTagHelperInsideAnother.TagHelpers
         /*
          * This methods creates, processes and renders the InnerTagHelper
          */
-        private string renderInnerTagHelper()
+        private string renderInnerTagHelper(TagHelperContext context)
         {
             InnerTagHelper innerTagHelper = new InnerTagHelper();
-            //Create a TagHelperContext instance
-            TagHelperContext innerContext = new TagHelperContext(
-                new TagHelperAttributeList(),
-                new Dictionary<object, object>(),
-                uniqueId: Guid.NewGuid().ToString()
-            );
+
             // Create a TagHelperOutput instance
             TagHelperOutput innerOutput = new TagHelperOutput(
                 tagName: "",
@@ -43,8 +38,9 @@ namespace RenderingTagHelperInsideAnother.TagHelpers
                             () => new DefaultTagHelperContent()
                      )
             );
+
             // Process the InnerTagHelper instance 
-            innerTagHelper.Process(innerContext, innerOutput);
+            innerTagHelper.Process(context, innerOutput);
 
             // Render and return the tag helper attributes and content
             return $"<{innerOutput.TagName} {renderHtmlAttributes(innerOutput)}>{innerOutput.Content.GetContent()}</{innerOutput.TagName}>";
