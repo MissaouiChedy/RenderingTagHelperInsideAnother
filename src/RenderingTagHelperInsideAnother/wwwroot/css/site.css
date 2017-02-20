@@ -36,3 +36,18 @@ textarea {
     display: none
   }
 }
+
+.wrapper-tag-helper {
+    padding: 1em;
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 2px black solid;
+}
+
+.inner-tag-helper {
+    padding: 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: 2px red solid;
+    color: red;
+}
